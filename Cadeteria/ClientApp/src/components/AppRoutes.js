@@ -10,33 +10,52 @@ import PedidoCanComp from './components/PedidoCanComp/PedidoCanComp';*/
 
 const AppRoutes = [
   {
+    // to: '/',
     index: true,
     element: <Home />
   },
   {
+    // to: '../login',
     path: '/login',
     element: <Login />
 
   },
   {
+    // to: '../Register',
     path: '/register',
     element: <Register />
 
   },
   {
-    path: 'cadete',
+    // to: '../cadete',
+    path: '/cadete',
     element: <Cadete />
 
   },
   {
-    path: 'cliente',
+    //to: '../cliente',
+    path: '/cliente',
     element: <Cliente />
 
   },
   {
-    path: 'pedido',
+    // to: '../pedido',
+    path: '/pedido',
     element: <Pedido />
+
   },
 ];
 
 export default AppRoutes;
+
+// {
+//   index: true,
+//     element: <Home />
+// },
+// {
+//   path: '/counter',
+//     element: <Counter />
+// },
+// {
+//   path: '/fetch-data',
+//     element: <FetchData />

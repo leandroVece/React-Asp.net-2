@@ -38,6 +38,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
     {
+        model.rolForeikey = Guid.Parse("f0601b48-a878-4fb5-a767-3f1340b8c0d8");
         _userRepository.Register(model);
         return Ok(new { message = "Registration successful" });
     }
