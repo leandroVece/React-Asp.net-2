@@ -2,12 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { helpHttp } from "./Helper";
 
-
 const GlobalContext = React.createContext();
 
 const ContextProvider = (props) => {
 
-    const [user, setUser] = useState({});
     const [db, setDb] = useState([]);
     const [dataToEdit, setDataToEdit] = useState(null);
     const [url, setUrl] = useState(null);
@@ -30,6 +28,7 @@ const ContextProvider = (props) => {
             setLoading(false);
         });
     }, [url]);
+
 
     const createData = (data) => {
         delete data.id
@@ -90,12 +89,12 @@ const ContextProvider = (props) => {
         }
     }
 
+
+
     return (
         <GlobalContext.Provider value={{
             db,
             setDb,
-            user,
-            setUser,
             url,
             setUrl,
             dataToEdit,

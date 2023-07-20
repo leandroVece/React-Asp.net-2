@@ -31,6 +31,7 @@ public class UserController : ControllerBase
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = _userRepository.Authenticate(model);
+        //SetSesion(response);
         return Ok(response);
     }
 

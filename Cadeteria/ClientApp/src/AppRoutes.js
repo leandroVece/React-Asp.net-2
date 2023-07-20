@@ -4,39 +4,55 @@ import Home from './components/Home';
 import Cadete from './components/Cadete';
 import Pedido from './components/Pedido';
 import Cliente from './components/Cliente';
-/*import FormPedido from './components/Pedido/FormPedido';
-import TomarPedido from './components/PedidoCadete/TomarPedido';
-import PedidoCanComp from './components/PedidoCanComp/PedidoCanComp';*/
+import Error from "./components/Error";
 
 const AppRoutes = [
   {
     index: true,
+    name: "Home",
+    path: '/',
+    private: false,
     element: <Home />
   },
   {
-    path: '/login',
-    element: <Login />
-
-  },
-  {
-    path: '/register',
-    element: <Register />
-
-  },
-  {
-    path: 'cadete',
+    name: "Cadete",
+    path: '/cadete',
+    private: true,
     element: <Cadete />
-
   },
   {
-    path: 'cliente',
+    name: "Cliente",
+    path: '/cliente',
+    private: true,
     element: <Cliente />
-
   },
   {
-    path: 'pedido',
+    name: "Pedido",
+    path: '/pedido',
+    private: true,
     element: <Pedido />
   },
+  {
+    name: "Login",
+    path: '/login',
+    private: false,
+    publicOnly: true,
+    element: <Login />
+  },
+  {
+    name: "Register",
+    path: '/register',
+    private: false,
+    publicOnly: true,
+    element: <Register />
+  }
 ];
 
-export default AppRoutes;
+const ErrorPath = {
+  path: '/error',
+  private: false,
+  element: <Error />,
+}
+
+export { AppRoutes, ErrorPath };
+

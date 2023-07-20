@@ -6,6 +6,7 @@ public interface IUserRepository
 {
     AuthenticateResponse Authenticate(AuthenticateRequest model);
     IEnumerable<User> GetAll();
+    IEnumerable<Rol> GetAllRol();
     User GetById(Guid id);
     void Register(RegisterRequest model);
     void Update(Guid id, UpdateRequest model);

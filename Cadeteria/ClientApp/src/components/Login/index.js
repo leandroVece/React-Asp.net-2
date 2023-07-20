@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import "./login.css";
 import { helpHttp } from "../../Helper";
+import { useAuth } from "../Auth";
+
 
 const InitialForm = {
     name: "",
@@ -16,12 +18,12 @@ const Login = () => {
     const {
         setUrl,
         url,
-        setUser,
     } = React.useContext(GlobalContext)
+    const auth = useAuth();
 
     setUrl("/user/authenticate");
-
     const navigate = useNavigate();
+
 
     const handleChange = (e) => {
         setForm({
@@ -31,6 +33,7 @@ const Login = () => {
     };
 
     const handleSubmit = (e) => {
+        //console.log(auth.cookies)
         e.preventDefault();
         let options = {
             body: form,
@@ -38,10 +41,11 @@ const Login = () => {
         };
         helpHttp().post(url, options).then((res) => {
             if (!res.err) {
-                setUser(res)
+                auth.setLoginTouch(!auth.loginTouch)
+                auth.login(res)
                 navigate("/")
             } else {
-                console.log(res)
+                //console.log(res)
             }
         })
     };

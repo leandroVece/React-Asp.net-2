@@ -31,7 +31,9 @@ export const helpHttp = () => {
             .catch((err) => err);
     };
 
-    const get = (url, options = {}) => customFetch(url, options);
+    const get = (url, options = {}) => {
+        return customFetch(url, options);
+    }
 
     const post = (url, options = {}) => {
         options.method = "POST";

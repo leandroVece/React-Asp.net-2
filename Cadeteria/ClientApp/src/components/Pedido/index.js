@@ -1,4 +1,6 @@
 import React from "react"
+import { GlobalContext } from "../../ApiContext";
+
 
 const InitialTable = {
     id: null,
@@ -9,6 +11,13 @@ const InitialTable = {
 
 const Pedido = () => {
 
+    const {
+        db,
+        setUrl,
+    } = React.useContext(GlobalContext)
+
+    setUrl("user")
+    console.log(db)
 
     return (
         <>

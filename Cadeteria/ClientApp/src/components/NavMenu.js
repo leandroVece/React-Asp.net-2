@@ -1,60 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { AppRoutes } from "../AppRoutes";
 import './NavMenu.css';
+import { useAuth } from './Auth';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+const NavMenu = () => {
+  const auth = useAuth();
+  const [collapsed, setCollapsed] = useState(true);
 
-  constructor(props) {
-    super(props);
+  //actualizar con un setState que cambie su balor al apretar el boton
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
+  const toggleNavbar = (e) => {
+    setCollapsed(!collapsed)
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+  const handelClick = () => {
+    auth.setLoginTouch(!auth.loginTouch)
+    auth.logout();
   }
 
-  render() {
-    return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-          <NavbarBrand tag={Link} to="/">Cadeteria</NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse className="d-sm-inline-flex" isOpen={!this.state.collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/cadete">Cadete</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/cliente">Cliente</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/pedido">Pedido</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-            <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/register">Registro</NavLink>
-              </NavItem>
-            </ul>
-          </Collapse>
-        </Navbar>
-      </header>
-    );
-  }
+  return (
+    <header>
+      <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
+        <NavbarBrand tag={Link} to="/">Cadeteria</NavbarBrand>
+        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+        <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
+          <ul className="navbar-nav flex-grow">
+            {AppRoutes.map((route, index) => {
+              const { path, ...rest } = route;
+              if (route.private && !auth.cookies.get("name")) return null;
+              if (route.publicOnly && auth.cookies.get("name")) return null
+              return (
+                <NavItem key={rest.name}>
+                  <NavLink key={rest.name + index} tag={Link} className="text-dark" to={path}>{rest.name}</NavLink>
+                </NavItem>
+              )
+            })}
+            {auth.cookies.get('name') ?
+              <button type="button" onClick={handelClick} class="btn btn-outline-danger">Logout</button>
+              : null
+            }
+          </ul>
+        </Collapse>
+      </Navbar>
+    </header>
+  );
+
 }
+
+export default NavMenu;

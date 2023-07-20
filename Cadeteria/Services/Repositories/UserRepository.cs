@@ -29,15 +29,22 @@ public class UserRepository : IUserRepository
         if (user == null || !BCrypt.Verify(model.Password, user.Password))
             throw new AppException("Username or password is incorrect");
 
+        var Rol = _context.rols.SingleOrDefault(x => x.Id_rol == user.rolForeikey);
+
         // authentication successful
         var response = _mapper.Map<AuthenticateResponse>(user);
         response.Token = _jwtUtils.GenerateToken(user);
+        response.Rol = Rol.Name;
         return response;
     }
 
     public IEnumerable<User> GetAll()
     {
         return _context.Users;
+    }
+    public IEnumerable<Rol> GetAllRol()
+    {
+        return _context.rols;
     }
 
     public User GetById(Guid id)
