@@ -29,16 +29,18 @@ const NavMenu = () => {
           <ul className="navbar-nav flex-grow">
             {AppRoutes.map((route, index) => {
               const { path, ...rest } = route;
+              if (route.invisible) return null
               if (route.private && !auth.cookies.get("name")) return null;
               if (route.publicOnly && auth.cookies.get("name")) return null
+              if (route.exclusive && auth.cookies.get("rol") != 'admin') return null
               return (
-                <NavItem key={rest.name}>
-                  <NavLink key={rest.name + index} tag={Link} className="text-dark" to={path}>{rest.name}</NavLink>
+                <NavItem key={rest.name + index}>
+                  <NavLink tag={Link} className="text-dark" to={path}>{rest.name}</NavLink>
                 </NavItem>
               )
             })}
             {auth.cookies.get('name') ?
-              <button type="button" onClick={handelClick} class="btn btn-outline-danger">Logout</button>
+              <button type="button" onClick={handelClick} className="btn btn-outline-danger">Logout</button>
               : null
             }
           </ul>

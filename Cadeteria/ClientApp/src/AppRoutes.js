@@ -5,6 +5,8 @@ import Cadete from './components/Cadete';
 import Pedido from './components/Pedido';
 import Cliente from './components/Cliente';
 import Error from "./components/Error";
+import Usuarios from "./components/User";
+import UpdateUser from "./components/UpdateUser";
 
 const AppRoutes = [
   {
@@ -45,14 +47,28 @@ const AppRoutes = [
     private: false,
     publicOnly: true,
     element: <Register />
+  },
+  {
+    name: "Usuarios",
+    path: '/Usuarios',
+    private: true,
+    exclusive: true,
+    element: <Usuarios />
+  },
+  {
+    path: '/UpdateUser',
+    private: true,
+    exclusive: true,
+    invisible: true,
+    element: <UpdateUser />
+  },
+  {
+    path: '*',
+    private: false,
+    element: <Error />,
   }
 ];
 
-const ErrorPath = {
-  path: '/error',
-  private: false,
-  element: <Error />,
-}
 
-export { AppRoutes, ErrorPath };
+export { AppRoutes };
 

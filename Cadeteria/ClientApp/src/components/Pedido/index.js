@@ -16,8 +16,6 @@ const Pedido = () => {
         setUrl,
     } = React.useContext(GlobalContext)
 
-    setUrl("user")
-    console.log(db)
 
     return (
         <>

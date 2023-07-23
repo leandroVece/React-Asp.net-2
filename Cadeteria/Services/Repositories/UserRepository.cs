@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
         // authentication successful
         var response = _mapper.Map<AuthenticateResponse>(user);
         response.Token = _jwtUtils.GenerateToken(user);
-        response.Rol = Rol.Name;
+        response.Rol = Rol.RolName;
         return response;
     }
 

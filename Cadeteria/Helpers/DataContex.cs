@@ -33,13 +33,13 @@ public class DataContext : DbContext
         modelBuilder.Entity<Rol>(R =>
         {
             List<Rol> listRol = new List<Rol>();
-            listRol.Add(new Rol() { Id_rol = Guid.Parse("7aafd6fb-612e-42c7-99db-cbec0fdad96f"), Name = "admin" });
-            listRol.Add(new Rol() { Id_rol = Guid.Parse("7a86db69-1474-4d92-a18e-91899d876c92"), Name = "cadete" });
-            listRol.Add(new Rol() { Id_rol = Guid.Parse("f0601b48-a878-4fb5-a767-3f1340b8c0d8"), Name = "cliente" });
+            listRol.Add(new Rol() { Id_rol = Guid.Parse("7aafd6fb-612e-42c7-99db-cbec0fdad96f"), RolName = "admin" });
+            listRol.Add(new Rol() { Id_rol = Guid.Parse("7a86db69-1474-4d92-a18e-91899d876c92"), RolName = "cadete" });
+            listRol.Add(new Rol() { Id_rol = Guid.Parse("f0601b48-a878-4fb5-a767-3f1340b8c0d8"), RolName = "cliente" });
 
             R.ToTable("rol");
-            R.HasKey(User => User.Id_rol);
-            R.Property(User => User.Name).IsRequired().HasMaxLength(15).IsUnicode();
+            R.HasKey(rol => rol.Id_rol);
+            R.Property(rol => rol.RolName).IsRequired().HasMaxLength(15).IsUnicode();
 
             R.HasData(listRol);
         });

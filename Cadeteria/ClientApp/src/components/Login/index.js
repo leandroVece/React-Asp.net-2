@@ -19,11 +19,12 @@ const Login = () => {
         setUrl,
         url,
     } = React.useContext(GlobalContext)
+
+
     const auth = useAuth();
 
     setUrl("/user/authenticate");
     const navigate = useNavigate();
-
 
     const handleChange = (e) => {
         setForm({
@@ -45,7 +46,8 @@ const Login = () => {
                 auth.login(res)
                 navigate("/")
             } else {
-                //console.log(res)
+                //navigate("/error")
+                alert("Error intente nuevamente")
             }
         })
     };
@@ -57,11 +59,16 @@ const Login = () => {
                 <div className="illustration">
                     <i className="icon ion-ios-locked-outline"></i></div>
                 <div className="form-group">
-                    <input className="form-control" type="text" name="name" placeholder="UserName" value={form.name} onChange={handleChange} /></div>
+                    <input className="form-control" type="text" name="name" placeholder="UserName" value={form.name} onChange={handleChange} />
+                </div>
                 <div className="form-group">
-                    <input className="form-control" type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} /></div>
+                    <input className="form-control" type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
+                </div>
                 <div className="form-group">
-                    <button className="btn btn-primary btn-block" type="submit">Log In</button></div><a href="#" className="forgot">Forgot your email or password?</a></form>
+                    <button className="btn btn-primary btn-block" type="submit">Log In</button>
+                </div>
+                <a href="#" className="forgot">Forgot your email or password?</a>
+            </form>
         </div >
     )
 }

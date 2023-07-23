@@ -7,7 +7,7 @@ public class Rol
 {
 
     public Guid Id_rol { get; set; }
-    public string Name { get; set; }
+    public string RolName { get; set; }
 
     [NotMapped]
     [JsonIgnore]

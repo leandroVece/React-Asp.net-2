@@ -8,10 +8,10 @@ const authContext = React.createContext();
 function AuthProvider({ children }) {
 
     const cookies = new Cookies();
-    const url = "/user"
+    const [url, setUrl] = useState("")
     const api = helpHttp();
     const [loginTouch, setLoginTouch] = useState(false);
-
+    const [dbUser, setDbUser] = useState([]);
 
     useEffect(() => {
         console.log("hecho")
@@ -19,22 +19,19 @@ function AuthProvider({ children }) {
 
 
     useEffect(() => {
-        //setLoading(true);
+        //console.log(cookies)
         let options = {
-            headers:
-            {
+            headers: {
                 "Authorization": "Bearer " + cookies.get("Token")
             }
         };
         helpHttp().get(url, options).then((res) => {
             if (!res.err) {
-                //setDb(res);
-                //setError(null);
+                setDbUser(res)
             } else {
-                //setDb(null);
-                //setError(res);
+                console.log(res)
+                //alert("error")
             }
-            // setLoading(false);
         });
     }, [url]);
 
@@ -42,7 +39,7 @@ function AuthProvider({ children }) {
         let endpoint = `${url}/${data.id}`;
         let options = {
             body: data,
-            headers: { "content-type": "application/json" },
+            headers: { "Authorization": "Bearer " + cookies.get("Token") },
         };
         api.put(endpoint, options).then((res) => {
             if (!res.err) {
@@ -60,7 +57,7 @@ function AuthProvider({ children }) {
         if (isDelete) {
             let endpoint = `${url}/${id}`;
             let options = {
-                headers: { "content-type": "application/json" },
+                headers: { "Authorization": "Bearer " + cookies.get("Token") },
             };
             api.del(endpoint, options).then((res) => {
                 if (!res.err) {
@@ -79,6 +76,7 @@ function AuthProvider({ children }) {
         cookies.set('name', data.name, { path: '/' })
         cookies.set('rol', data.rol, { path: '/' })
         cookies.set('Token', data.token, { path: '/' })
+        cookies.set('permisos',)
     }
 
     const logout = () => {
@@ -89,7 +87,8 @@ function AuthProvider({ children }) {
     }
 
     const auth = {
-        cookies, login, logout, UpdateWithToken, deleteWithToken, loginTouch, setLoginTouch
+        cookies, login, logout, UpdateWithToken, deleteWithToken, loginTouch, setLoginTouch,
+        setDbUser, dbUser, setUrl
     }
 
     return (
@@ -108,7 +107,7 @@ function useAuth() {
 function AuthRouter(props) {
     const auth = useAuth()
     if (!auth.cookies.get("name")) {
-        return <Navigate to='/login' />
+        return <Navigate to='/error' />
     }
     return props.children
 }

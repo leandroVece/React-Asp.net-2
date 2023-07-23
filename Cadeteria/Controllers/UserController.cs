@@ -13,15 +13,18 @@ using Cadeteria.Services;
 public class UserController : ControllerBase
 {
     private IUserRepository _userRepository;
+    DataContext _db;
     private IMapper _mapper;
     private readonly AppSettings _appSettings;
 
     public UserController(
         IUserRepository userService,
+        DataContext db,
         IMapper mapper,
         IOptions<AppSettings> appSettings)
     {
         _userRepository = userService;
+        _db = db;
         _mapper = mapper;
         _appSettings = appSettings.Value;
     }
@@ -47,14 +50,24 @@ public class UserController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _userRepository.GetAll();
+        var users = _db.Users.Join(_db.rols, us => us.rolForeikey, r => r.Id_rol,
+        (us, r) => new { us.Id_user, us.Name, r.Id_rol, r.RolName }).ToList();
+        // var users = _userRepository.GetAll();
         return Ok(users);
+    }
+
+    [HttpGet("rol")]
+    public IActionResult GetAllRol()
+    {
+        var rol = _userRepository.GetAllRol();
+        return Ok(rol);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(Guid id)
     {
-        var user = _userRepository.GetById(id);
+        var user = _db.Users.Join(_db.rols, us => us.rolForeikey, r => r.Id_rol,
+        (us, r) => new { us.Id_user, us.Name, us.Password, r.Id_rol, r.RolName }).Where(x => x.Id_user == id);
         return Ok(user);
     }
 

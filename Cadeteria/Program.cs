@@ -30,6 +30,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
 
 /*builder.Services.AddDistributedMemoryCache();
 
